@@ -4,7 +4,7 @@ services:
   ssh-client:
     build: .
     environment:
-     - B64_PRIVATE_SSH_KEY
+     - PRIVATE_SSH_KEY
      - HOST_USER
     network_mode: host
     command: ls

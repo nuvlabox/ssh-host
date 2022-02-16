@@ -1,7 +1,7 @@
 #!/bin/sh
 
-echo $B64_PRIVATE_SSH_KEY | base64 -d > id_rsa
+echo -e $PRIVATE_SSH_KEY > id_rsa
 
 chmod 600 id_rsa
 
-ssh -i id_rsa $HOST_USER@localhost -- "$@"
+ssh -i id_rsa -o StrictHostKeyChecking=no $HOST_USER@localhost -- "$@"

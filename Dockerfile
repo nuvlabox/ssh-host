@@ -1,7 +1,9 @@
-FROM alpine
+FROM python:3-alpine
 
 RUN apk --no-cache add openssh
 
-COPY ./run_ssh_cmd ./
+RUN pip install websockets
 
-ENTRYPOINT ["./run_ssh_cmd"]
+COPY ./entrypoint  ./websocket_ssh.py ./
+
+ENTRYPOINT ["./entrypoint"]

@@ -6,5 +6,6 @@ services:
     environment:
      - PRIVATE_SSH_KEY
      - HOST_USER
+     - WEBSOCKET_TOKEN
     network_mode: host
     command: ls

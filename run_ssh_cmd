@@ -1,7 +1,0 @@
-#!/bin/sh
-
-echo -e $PRIVATE_SSH_KEY > id_rsa
-
-chmod 600 id_rsa
-
-ssh -i id_rsa -o BatchMode=yes -o StrictHostKeyChecking=no -o LogLevel=ERROR $HOST_USER@localhost -- "$@"

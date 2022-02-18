@@ -30,7 +30,7 @@ async def handle_ssh_message(websocket):
         ssh_cmd = f'ssh -i id_rsa -o BatchMode=yes -o StrictHostKeyChecking=no -o LogLevel=ERROR {user}@localhost -- {message}'
         global ssh_cmd_received_at
         ssh_cmd_received_at = time.time()
-        result = run(ssh_cmd, stdout=PIPE, stderr=STDOUT, timeout=180, encoding='UTF-8', shell=True)
+        result = run(ssh_cmd, stdout=PIPE, stderr=STDOUT, timeout=10, encoding='UTF-8', shell=True)
         await websocket.send(result.stdout)
 
 

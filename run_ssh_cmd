@@ -4,4 +4,4 @@ echo -e $PRIVATE_SSH_KEY > id_rsa
 
 chmod 600 id_rsa
 
-ssh -i id_rsa -o StrictHostKeyChecking=no -o LogLevel=ERROR $HOST_USER@localhost -- "$@"
+ssh -i id_rsa -o BatchMode=yes -f -q -o StrictHostKeyChecking=no -o LogLevel=ERROR $HOST_USER@localhost -- "$@"

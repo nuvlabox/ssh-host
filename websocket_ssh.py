@@ -31,12 +31,12 @@ async def handle_ssh_message(websocket):
         global ssh_cmd_received_at
         ssh_cmd_received_at = time.time()
         try:
-            result = run(ssh_cmd, stdout=PIPE, stderr=STDOUT, timeout=10, encoding='UTF-8', shell=True)
+            result = run(ssh_cmd, stdout=PIPE, stderr=STDOUT, timeout=10, encoding='UTF-8', shell=True).stdout
         except TimeoutExpired:
             result = f'Command timed out after 10 seconds (tried to run "{message}")'
         except Exception as e:
             result = f'Unable to execute command "{message}": {str(e)}'
-        await websocket.send(result.stdout)
+        await websocket.send(result)
 
 
 async def main():

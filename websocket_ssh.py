@@ -25,7 +25,7 @@ class TokenParamProtocol(websockets.WebSocketServerProtocol):
             return http.HTTPStatus.UNAUTHORIZED, [], b"Invalid token\n"
 
 
-async def handle_ssh_message(self, websocket):
+async def handle_ssh_message(websocket):
     async for message in websocket:
         ssh_cmd = f'ssh -i id_rsa -f -q -o BatchMode=yes -o StrictHostKeyChecking=no -o LogLevel=ERROR {user}@localhost -- {message}'
         global ssh_cmd_received_at

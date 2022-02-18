@@ -35,7 +35,7 @@ async def handle_ssh_message(self, websocket):
 
 
 async def main():
-    with websockets.serve(handle_ssh_message, "0.0.0.0", 8765, create_protocol=TokenParamProtocol):
+    async with websockets.serve(handle_ssh_message, "0.0.0.0", 8765, create_protocol=TokenParamProtocol):
         socket_timeout = default_timeout
         while True:
             try:

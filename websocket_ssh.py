@@ -5,7 +5,7 @@ import http
 import websockets
 import os
 import time
-from subprocess import run, STDOUT, PIPE
+from subprocess import run, STDOUT, PIPE, TimeoutExpired
 
 
 authn_token = os.getenv('WEBSOCKET_TOKEN')
@@ -30,7 +30,12 @@ async def handle_ssh_message(websocket):
         ssh_cmd = f'ssh -i id_rsa -o BatchMode=yes -o StrictHostKeyChecking=no -o LogLevel=ERROR {user}@localhost -- {message}'
         global ssh_cmd_received_at
         ssh_cmd_received_at = time.time()
-        result = run(ssh_cmd, stdout=PIPE, stderr=STDOUT, timeout=10, encoding='UTF-8', shell=True)
+        try:
+            result = run(ssh_cmd, stdout=PIPE, stderr=STDOUT, timeout=10, encoding='UTF-8', shell=True)
+        except TimeoutExpired:
+            result = f'Command timed out after 10 seconds (tried to run "{message}")'
+        except Exception as e:
+            result = f'Unable to execute command "{message}": {str(e)}'
         await websocket.send(result.stdout)
 
 

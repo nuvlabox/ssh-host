@@ -46,7 +46,7 @@ async def handle_ssh_message(websocket):
 async def main():
     port = 8765     # 443 for wss
     async with websockets.serve(handle_ssh_message, "0.0.0.0", port,
-                                create_protocol=TokenParamProtocol, ssl=ssl_context):
+                                create_protocol=TokenParamProtocol): #, ssl=ssl_context):
         socket_timeout = default_timeout
         while True:
             try:

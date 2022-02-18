@@ -4,6 +4,7 @@ import asyncio
 import http
 import websockets
 import os
+import ssl
 import time
 from subprocess import run, STDOUT, PIPE, TimeoutExpired
 
@@ -12,6 +13,8 @@ authn_token = os.getenv('WEBSOCKET_TOKEN')
 user = os.getenv('HOST_USER')
 default_timeout = 180
 ssh_cmd_received_at = time.time()
+ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+ssl_context.load_cert_chain("cert.pem", "cert.pem")
 
 
 class TokenParamProtocol(websockets.WebSocketServerProtocol):
@@ -40,7 +43,8 @@ async def handle_ssh_message(websocket):
 
 
 async def main():
-    async with websockets.serve(handle_ssh_message, "0.0.0.0", 8765, create_protocol=TokenParamProtocol):
+    async with websockets.serve(handle_ssh_message, "0.0.0.0", 8765,
+                                create_protocol=TokenParamProtocol, ssl=ssl_context):
         socket_timeout = default_timeout
         while True:
             try:
